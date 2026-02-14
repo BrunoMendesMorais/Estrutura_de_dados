@@ -1,35 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-int achaposicao(int U, int P,unsigned int data,unsigned int V[]){
-	int M = (U + P) /2;
-	if(U == 0)
-		return M;
-	if(M == U && data < V[M])
-		return M-1;
-	if(M == U && data > V[M])
-		return M+1;
-	if(V[M] == data || data == 0)
+int achaposicao(int ultimo, int primeiro,unsigned int data,unsigned int V[]){
+	int meio = trunc((primeiro + ultimo) /2);
+	if(V[meio] == data)
 		return -1;
-	if(V[M] < data)
-		achaposicao(M-1,P,data,V);
-	achaposicao(U,M+1,data,V);
+	printf("[%d %d]", primeiro, ultimo);
+	if(ultimo == primeiro && data < V[meio])
+		return meio;
+	if(ultimo == primeiro && data > V[meio])
+		return meio+1;
+	if(data < V[meio]){
+		achaposicao(meio,primeiro,data,V);	
+	}
+	else{
+		achaposicao(ultimo,meio+1,data,V);	
+	}
 }
 
-int add(int M,unsigned int V[], unsigned int data,int T){
-	if(M == -1)
+int add(int posicao,unsigned int V[], unsigned int data,int fim){
+	if(posicao == -1)
 		return -1;
 	int i;
-	unsigned int ut = V[M];
-	V[M] = data;
-	for(i = M;i != T+1; i++)
-		V[i] = ut;
+	unsigned int ut = V[posicao];
+	V[posicao] = data;
+	for(i = posicao+1;i != fim+1; i++){
+		data = V[posicao];
+		V[posicao] = ut;
+		ut = V[posicao];
+	}
 	return 0;
 }
 
 int main(int argc, char *argv[]) {
+	
 	int tamanho,i,ultPos,posicao,resposta;
 	
 	printf("Tamho do vetor:");
@@ -38,10 +45,17 @@ int main(int argc, char *argv[]) {
 	unsigned int valor, numeros[tamanho];
 	
 	for(i = 0; i < tamanho; i++){
-		ultPos = i;
+		numeros[i] = 0;
+	}
+	
+	
+	numeros[0] = 0;
+	
+	for(i = 1; i < tamanho; i++){
 		valor = i;
-		posicao = achaposicao(ultPos,0,valor,numeros);
+		posicao = achaposicao(i-1,0,valor,numeros);
 		resposta = add(posicao,numeros,valor,i);
+		printf("%d\n\n", posicao);
 		i = i + resposta;
 	}
 	for(i = 0; i < tamanho; i++){
