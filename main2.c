@@ -8,11 +8,10 @@ int achaposicao(int ultimo, int primeiro,unsigned int data,unsigned int V[]){
 	int meio = trunc((primeiro + ultimo) /2);
 	if(V[meio] == data)
 		return -1;
-	printf("[%d %d]", primeiro, ultimo);
 	if(ultimo == primeiro && data < V[meio])
 		return meio;
 	if(ultimo == primeiro && data > V[meio])
-		return meio+1;
+		return meio;
 	if(data < V[meio]){
 		achaposicao(meio,primeiro,data,V);	
 	}
@@ -27,10 +26,10 @@ int add(int posicao,unsigned int V[], unsigned int data,int fim){
 	int i;
 	unsigned int ut = V[posicao];
 	V[posicao] = data;
-	for(i = posicao+1;i != fim+1; i++){
-		data = V[posicao];
-		V[posicao] = ut;
-		ut = V[posicao];
+	for(i = posicao+1;i <= fim; i++){
+		data = V[i];
+		V[i] = ut;
+		ut = data;
 	}
 	return 0;
 }
@@ -49,16 +48,15 @@ int main(int argc, char *argv[]) {
 	}
 	
 	
-	numeros[0] = 0;
+	numeros[0] = rand;
 	
 	for(i = 1; i < tamanho; i++){
-		valor = i;
+		valor = rand();
 		posicao = achaposicao(i-1,0,valor,numeros);
 		resposta = add(posicao,numeros,valor,i);
-		printf("%d\n\n", posicao);
 		i = i + resposta;
 	}
-	for(i = 0; i < tamanho; i++){
+	for(i = 0; i < tamanho-1; i++){
 		printf("\n%u",numeros[i]);
 	}
 	return 0;
