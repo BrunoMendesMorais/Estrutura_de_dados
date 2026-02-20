@@ -3,7 +3,8 @@
 #include <unistd.h>
 
 void main(int argc, char *argv[]) {
-	int i,tempo;
+	int i;
+	double tempo;
 	unsigned int valor, numeros[500];
 	clock_t c,f;
 	
@@ -20,7 +21,7 @@ void main(int argc, char *argv[]) {
  	}
  	f = clock();
  	
- 	tempo = f-c;
+ 	tempo = ((f-c)*1000)/(CLOCKS_PER_SEC);
  	numeros[i]!=valor ? printf("numero nao encontrado"):printf("O numero que pediu esta na posicao: %d", i);
-	printf("\n\n\ntempo de execucao: %d",tempo);
+	printf("\n\n\ntempo de execucao: %f",tempo);
 }
