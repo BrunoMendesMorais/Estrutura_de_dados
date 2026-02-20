@@ -4,7 +4,6 @@
 
 void main(int argc, char *argv[]) {
 	int i,tempo;
-	char h;
 	unsigned int valor, numeros[500];
 	clock_t c,f;
 	
@@ -24,5 +23,4 @@ void main(int argc, char *argv[]) {
  	tempo = f-c;
  	numeros[i]!=valor ? printf("numero nao encontrado"):printf("O numero que pediu esta na posicao: %d", i);
 	printf("\n\n\ntempo de execucao: %d",tempo);
-	scanf("%c",&h);
 }
