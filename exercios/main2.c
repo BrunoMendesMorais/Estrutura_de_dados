@@ -18,10 +18,11 @@ tNo *criarNo(int info){
 }
 
 tNo* subArvore(int info, tNo *no){
-	if(no->info < info || ){
+	if(no->info < info ){
 		if(!no->direita)
 			return no->direita=criarNo(info);
 		return subArvore(info, no->direita);
+	}
 	if(no->info > info){
 		if(!no->esquerda){
 			return no->esquerda=criarNo(info);
@@ -29,8 +30,8 @@ tNo* subArvore(int info, tNo *no){
 		}
 	} 
 }
-	 
-		
+
+void print_arvore(tNo *no, int espaco){
     int i;
     if (!no) // Se não existe nó, retorna
         return;
