@@ -89,9 +89,7 @@ void print_arvore(Aluno *no, int espaco){
 
 int main(int argc, char *argv[]) {
 	int cont = 1, op, ra, i;
-	Aluno alunos[40];
-	for(i = 0; i < 40; i++)
-    	alunos[i].f = 0;
+    Aluno* alunos = NULL;
 	do{
 		system("cls");
 		printf("------------------------------ LISTA DE FUNCOES ------------------------------\n\n");
@@ -107,8 +105,12 @@ int main(int argc, char *argv[]) {
 			case 1:
 				system("cls");
 				printf("RA para cadastro:");
-				scanf("%d"$ra);
-				registrar(ra,alunos);
+				scanf("%d",&ra);
+				if(!alunos){
+					alunos = registrar(ra);
+				}else{
+					atribuirArvore(ra,alunos);
+				}
 				break;
 			case 2:
 				system("cls");
