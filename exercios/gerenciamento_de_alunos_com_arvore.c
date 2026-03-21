@@ -40,17 +40,16 @@ Aluno* excluir(Aluno* a){
 	Aluno* sub = a->dir;
 	if(!sub)
 		novo = a->esq;
-	else
-	if(!sub->esq){
+	else if(!sub->esq){
 		novo = a->dir;
 		novo->esq = a->esq; 
 	}else{
-		while(sub->esq->esq){
-			novo = sub->esq;
-			sub->esq = sub->esq->dir;
-		}
+		while(sub->esq->esq)
+			sub = sub->esq;
+		novo = sub->esq;
+		sub->esq = novo->dir;
 		novo->esq = a->esq;
-		novo->dir = a->dir;
+    	novo->dir = a->dir;
 	}
 	free(a);
 	return novo;
@@ -60,9 +59,9 @@ Aluno* procurarParaExcluir(Aluno* a,int ra){
 	if(!a)
 		return a;
 	if(ra< a->ra)
-		a->esq = procurarParaExcluir(a,ra);
-	if(ra< a->ra)
-		a->dir = procurarParaExcluir(a,ra);
+		a->esq = procurarParaExcluir(a->esq,ra);
+	if(ra> a->ra)
+		a->dir = procurarParaExcluir(a->dir,ra);
 	if(a->ra == ra)
 		a = excluir(a);
 		return a;
