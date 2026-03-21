@@ -32,13 +32,47 @@ void exibir(Aluno* a){
 	for(i = 0; i<=3; i++){
 		printf("\nNota %d: %.2f",i+1,a->notas[i]);
 	}
-	printf("\nMedia: %.2f", media(a->notas));
+//	printf("\nMedia: %.2f", media(a->notas));
+}
+
+Aluno* excluir(Aluno* a){
+	Aluno* novo;
+	Aluno* sub = a->dir;
+	if(!sub)
+		novo = a->esq;
+	else
+	if(!sub->esq){
+		novo = a->dir;
+		novo->esq = a->esq; 
+	}else{
+		while(sub->esq->esq){
+			novo = sub->esq;
+			sub->esq = sub->esq->dir;
+		}
+		novo->esq = a->esq;
+		novo->dir = a->dir;
+	}
+	free(a);
+	return novo;
+}
+
+Aluno* procurarParaExcluir(Aluno* a,int ra){
+	if(!a)
+		return a;
+	if(ra< a->ra)
+		a->esq = procurarParaExcluir(a,ra);
+	if(ra< a->ra)
+		a->dir = procurarParaExcluir(a,ra);
+	if(a->ra == ra)
+		a = excluir(a);
+		return a;
 }
 
 Aluno* registrar(int ra){
 	int i;	
 	Aluno *a = (Aluno*)malloc(sizeof(Aluno));
-	printf("ra: %d", ra);
+	printf("ra: %d\n", ra);
+	a->ra = ra;
 	printf("Nome: ");
 	getchar(); 
 	fgets(a->nome, 50, stdin);
@@ -62,17 +96,17 @@ Aluno* registrar(int ra){
 }
 
 Aluno* atribuirArvore(int ra,Aluno* b){
-	if(!b){
-		return b;	
+	if(!b)
+		return registrar(ra);
 	if(ra<b->ra)
 		b->esq = atribuirArvore(ra,b->esq);
-	if(b->ra)
+	if(ra>b->ra)
 		b->dir = atribuirArvore(ra,b->dir);
 	else if(ra == b->ra){
 		printf("\n\nRA já cadastrado cadastre o aluno com um RA diferente\n\n");
 		return b;
 	}
-	registrar(ra);
+	return b;
 }
 
 void print_arvore(Aluno *no, int espaco){
@@ -84,6 +118,7 @@ void print_arvore(Aluno *no, int espaco){
         printf("  ");
     printf("%i\n", no->ra); 
     print_arvore(no->esq, espaco + 1);
+    fim();
 }
 
 
@@ -120,13 +155,13 @@ int main(int argc, char *argv[]) {
 				system("cls");
 				printf("digite o ra");
 				scanf("%d",&ra);
-				buscaRa(alunos, ra);
+//				buscaRa(alunos, ra);
 				break;
 			case 4:
 				system("cls");
 				printf("digite o ra");
 				scanf("%d",&ra);
-				excluir(alunos,ra);
+				alunos = procurarParaExcluir(alunos,ra);
 				break;
 			default:
 				cont = 0;
